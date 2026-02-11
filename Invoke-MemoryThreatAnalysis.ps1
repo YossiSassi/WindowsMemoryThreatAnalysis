@@ -184,13 +184,13 @@ $protectionTypes = @{}
 foreach ($e in $entries) {
     $proc = $e['ImageName']
     $prot = $e['TypeLabel']
-    $pid  = $e['ProcessID']
+    $ProcessID  = $e['ProcessID']
 
     if (-not $processes.ContainsKey($proc)) {
         $processes[$proc] = @{ Regions = 0; PIDs = [System.Collections.Generic.HashSet[int]]::new(); RWX = 0; ExecOnly = 0; TotalSize = 0 }
     }
     $processes[$proc].Regions++
-    [void]$processes[$proc].PIDs.Add($pid)
+    [void]$processes[$proc].PIDs.Add($processID)
     $processes[$proc].TotalSize += $e['RegionSize']
     if ($e['Protect'] -eq '0x40') { $processes[$proc].RWX++ } else { $processes[$proc].ExecOnly++ }
 

@@ -4,6 +4,9 @@ PowerShell module for comprehensive memory threat analysis for process memory re
 Contains 2 scripts:<br>
 1. <p>Get-RWXAndMapThreads.ps1</p> Scan a process for suspicious executable memory (exec+write and exec-only) and map detected memory regions to threads whose Start Address address lies inside them.<br>
 2. <p>Invoke-MemoryThreatAnalysis.ps1</p> Takes the output json file from 'Get-RWXAndMapThreads.ps1' and analyzes it for threat injection, NOP sleds, syscall stubs, trampoline regions, RWX regions, high-entropy payloads, suspicious strings and more. Output to console + a dark-themed detailed HTML report. (Note: Requires Python 3.x for JSON parsing of large/concatenated JSON arrays)<br>
+### Memory Threat Analysis Flow ###
+The first script, 'Get-RWXAndMapThreads.ps1', is represented by steps 1 + 2: You scan one or more processes and produce a json file. The second script, 'Invoke-MemoryThreatAnalysis.ps1', is represented in steps 3 + 4: analyzing the output json file for multiple threat patterns, and producing a detailed html report:
+![memory threat analysis flow](/screenshots/memorythreatanalysisflow.jpg) <br>
 ### Get-RWXAndMapThreads.ps1 ###
 .SYNOPSIS<br>
   Scan a process for suspicious executable memory (exec+write and exec-only) and map detected memory regions to threads whose Start Address address lies inside them.<br>

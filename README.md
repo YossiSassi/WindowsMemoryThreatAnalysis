@@ -1,4 +1,4 @@
-# WindowsMemoryThreatAnalysis
+# Windows Memory Threat Analysis
 PowerShell module for comprehensive memory threat analysis for process memory regions. Scan a process for suspicious patterns, map memory regions to threads; then analyze for threats &amp; produce a detailed report.
 <br><br>
 Contains 2 scripts:<br>
@@ -59,4 +59,21 @@ Run with setting input Json file path and ouput html report path
 ```
 .\Invoke-MemoryThreatAnalysis.ps1 -JsonFilePath C:\data\memory.json -HtmlReportPath C:\reports\findings.htm
 ```
+### Sample Screenshots ###
+Low risk scan - PowerShell & PWSH
+![Low risk scan - PowerShell & PWSH](/screenshots/screenshot_sample_scan_ps.jpg) <br><br>
+
+Analysis of low risk PowerShell & PWSH - Part 1
+![Analysis of low risk PowerShell & PWSH - Part 1](/screenshots/screenshot_analysis_ps1.jpg) <br><br>
+
+Analysis of low risk PowerShell & PWSH - Part 2
+![Analysis of low risk PowerShell & PWSH - Part 2](/screenshots/screenshot_analysis_ps2.jpg) <br><br>
+
+Scan with suspicious bytes in memory
+![Scan with suspicious hex in thread](/screenshots/screenshot_sample_scan_malicious.jpg) <br><br>
+
+Analysis of medium risk score with suspicious bytes (See also sample html report)
+![Analysis of medium risk score with suspicious bytes](/screenshots/screenshot_analysis_calc.jpg) <br><br>
+### Sample Report ###
+Sample HTML findings report can be found here: <a href="./reports/sample-findings-report.htm" target="_blank">View Report</a> <br><br>
 Suggestions & comments are welcome to yossis@protonmail.com

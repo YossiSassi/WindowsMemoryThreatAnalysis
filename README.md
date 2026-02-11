@@ -75,5 +75,5 @@ Scan with suspicious bytes in memory
 Analysis of medium risk score with suspicious bytes (See also sample html report)
 ![Analysis of medium risk score with suspicious bytes](/screenshots/screenshot_analysis_calc.jpg) <br><br>
 ### Sample Report ###
-Sample HTML findings report can be found here: <a href="./reports/sample-findings-report.htm" target="_blank">View Report</a> <br><br>
+Sample HTML findings report can be found [here:](./reports/sample-findings-report.htm) <br><br>
 Suggestions & comments are welcome to yossis@protonmail.com

@@ -73,7 +73,7 @@ Scan with suspicious bytes in memory
 ![Scan with suspicious hex in thread](/screenshots/screenshot_sample_scan_malicious.jpg) <br><br>
 
 Analysis of medium risk score with suspicious bytes (See also sample html report)
-![Analysis of medium risk score with suspicious bytes](/screenshots/screenshot_analysis_calc.jpg) <br><br>
+![Analysis of medium risk score with suspicious bytes](/screenshots/screenshot_analysis_calc.jpg) <br>
 ### Sample Report ###
-Sample HTML findings report can be found [here:](https://github.com/YossiSassi/WindowsMemoryThreatAnalysis/blob/main/reports/sample-findings-report.htm)<br><br>
+Sample HTML findings report can be found [View Report](./reports/sample-findings-report.htm)<br><br>
 Suggestions & comments are welcome to yossis@protonmail.com

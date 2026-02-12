@@ -25,9 +25,12 @@
 
 .NOTES
     Requires Python 3.x for JSON parsing of large/concatenated JSON arrays.
+    
     Author: Claude Opus 4.6 - Memory Threat Analyzer
     Prompt design & AI implementation plan: #yossi_sassi (yossis@protonmail.com)
-    v1.0
+    
+    v1.0a - fixed an error handling bug when json file gets created empty (no memory regions to scan)
+    v1.0 - initial script
 #>
 
 [CmdletBinding()]
@@ -112,6 +115,11 @@ Write-Banner "STEP 1: LOADING AND PARSING JSON"
 
 if (-not (Test-Path $JsonFilePath)) {
     Write-Error "File not found: $JsonFilePath"
+    return
+}
+
+if ($(Get-Content $JsonFilePath).Length -le 1) {
+    Write-Error "File appears to be empty: $JsonFilePath"
     return
 }
 

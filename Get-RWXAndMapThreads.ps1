@@ -10,13 +10,14 @@
   - This script reads memory (safe). It does not write or inject.
  
   Comments to yossis@protonmail.com
-  v1.0
+  v1.0.1 - changed default bytes read to 4096 instead 256 so not to miss PE/MZ/other relevant patterns.
+  v1.0 - initial script
 #>
 
 param(
     [Parameter(Mandatory=$true)][int]$ProcessID,
     [string]$StringToLookFor = 'MZ',
-    [int]$ReadBytes = 256,
+    [int]$ReadBytes = 4096,
     [string]$ExportJson = $null,
     [string]$ExportCsv  = $null
 )

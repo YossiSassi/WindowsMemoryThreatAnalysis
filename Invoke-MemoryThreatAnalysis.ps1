@@ -29,6 +29,7 @@
     Author: Claude Opus 4.6 - Memory Threat Analyzer
     Prompt design & AI implementation plan: #yossi_sassi (yossis@protonmail.com)
     
+    v1.1 - Bug fixes: The PE/MZ check now at any offset & not only offset 0; All-null entries counted as "active"; threat level logic bug in risk analysis
     v1.0a - fixed an error handling bug when json file gets created empty (no memory regions to scan)
     v1.0 - initial script
 #>
@@ -305,16 +306,18 @@ foreach ($e in $entries) {
     foreach ($b in $rawBytes) { if ($b -ne 0) { $allNull = $false; break } }
     if ($allNull) {
         [void]$allNullEntries.Add($e)
-        if ($e['Protect'] -eq '0x40') { [void]$rwxActiveEntries.Add($e) }  # still count as RWX
         continue
     }
 
     # Track active RWX
     if ($e['Protect'] -eq '0x40') { [void]$rwxActiveEntries.Add($e) }
 
-    # MZ header (PE file)
-    if ($rawBytes.Count -ge 2 -and $rawBytes[0] -eq 0x4D -and $rawBytes[1] -eq 0x5A) {
-        [void]$mzHeaders.Add($e)
+    # MZ header (PE file) - scan full buffer, not just offset 0
+    for ($j = 0; $j -lt ($rawBytes.Count - 1); $j++) {
+        if ($rawBytes[$j] -eq 0x4D -and $rawBytes[$j+1] -eq 0x5A) {
+            [void]$mzHeaders.Add($e)
+            break
+        }
     }
 
     # NOP sled (4+ consecutive 0x90)
@@ -555,10 +558,19 @@ foreach ($r in ($sortedRisk | Select-Object -First 15)) {
     [void]$barChartHtml.AppendLine("<div class=`"bar-row`"><span class=`"bar-label`">$($r.Process)</span><div class=`"bar-track`"><div class=`"bar-fill`" style=`"width:${pct}%;background:${barColor};`">$($r.Score)</div></div></div>")
 }
 
-# Determine overall threat level
+# Determine overall threat level (uses risk scores computed in Step 6)
 $overallThreat = 'LOW'; $threatColor = '#27ae60'
-if ($entriesWithThreads.Count -gt 0) { $overallThreat = 'CRITICAL'; $threatColor = '#e74c3c' }
-elseif ($mzHeaders.Count -gt 0 -and ($mzHeaders | Where-Object { $_['Protect'] -eq '0x40' }).Count -gt 0) { $overallThreat = 'MEDIUM'; $threatColor = '#f39c12' }
+if ($entriesWithThreads.Count -gt 0) {
+    $overallThreat = 'CRITICAL'; $threatColor = '#e74c3c'
+} elseif ($criticalProcesses.Count -gt 0) {
+    $overallThreat = 'HIGH'; $threatColor = '#e67e22'
+} elseif ($mzHeaders.Count -gt 0 -and @($mzHeaders | Where-Object { $_['Protect'] -eq '0x40' }).Count -gt 0) {
+    $overallThreat = 'HIGH'; $threatColor = '#e67e22'
+} elseif (@($highEntropyEntries | Where-Object { $_.Entry['Protect'] -eq '0x40' }).Count -gt 0) {
+    $overallThreat = 'MEDIUM'; $threatColor = '#f39c12'
+} elseif ($rwxActiveEntries.Count -gt 0) {
+    $overallThreat = 'MEDIUM'; $threatColor = '#f39c12'
+}
 
 $html = @"
 <!DOCTYPE html>

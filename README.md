@@ -63,6 +63,9 @@ Run with setting input Json file path and ouput html report path
 .\Invoke-MemoryThreatAnalysis.ps1 -JsonFilePath C:\data\memory.json -HtmlReportPath C:\reports\findings.htm
 ```
 ### Sample Screenshots ###
+High risk analysis (post-scan) - detected injected mimikatz that bypassed EDR
+![High risk analysis - injected malicious detection](/screenshots/screenshot_analysis_high_mimi.jpg) <br><br>
+
 Low risk scan - PowerShell & PWSH
 ![Low risk scan - PowerShell & PWSH](/screenshots/screenshot_sample_scan_ps.jpg) <br><br>
 
